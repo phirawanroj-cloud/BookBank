@@ -1,0 +1,5 @@
+{
+  "name": "ReconMaster AI",
+  "description": "ระบบกระทบยอดข้อมูลทางการเงินอัจฉริยะ (Bank vs Book Reconciliation) ช่วยจับคู่ธุรกรรมอัตโนมัติและค้นหาข้อผิดพลาด",
+  "requestFramePermissions": []
+}
