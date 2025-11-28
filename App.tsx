@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { BookRecord, BankRecord, ReconciliationResult, Stats, MatchStatus } from './types';
+import { BookRecord, BankRecord, ReconciliationResult, Stats } from './types';
 import { parseBookCSV, parseBankCSV } from './utils/parser';
 import { reconcileData, calculateStats } from './utils/matcher';
 import FileUpload from './components/FileUpload';
 import ResultsTable from './components/ResultsTable';
-import { LayoutDashboard, FileSpreadsheet, ArrowRightLeft, PieChart, RefreshCw, AlertTriangle, CheckCircle2, DollarSign, TrendingUp } from 'lucide-react';
+import { FileSpreadsheet, ArrowRightLeft, RefreshCw, AlertTriangle, CheckCircle2, DollarSign, TrendingUp } from 'lucide-react';
 import { PieChart as RePieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 const App: React.FC = () => {
