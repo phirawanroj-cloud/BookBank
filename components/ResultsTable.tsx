@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ReconciliationResult, MatchStatus } from '../types';
-import { CheckCircle, AlertTriangle, XCircle, Search, ArrowRight } from 'lucide-react';
+import { CheckCircle, AlertTriangle, XCircle, Search, ArrowRight, Filter } from 'lucide-react';
 
 interface ResultsTableProps {
   data: ReconciliationResult[];
@@ -29,42 +29,42 @@ const ResultsTable: React.FC<ResultsTableProps> = ({ data }) => {
   const getStatusBadge = (status: MatchStatus) => {
     switch (status) {
       case MatchStatus.MATCHED:
-        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"><CheckCircle className="w-3 h-3 mr-1"/> สมบูรณ์</span>;
+        return <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700 border border-emerald-200 shadow-sm"><CheckCircle className="w-3 h-3 mr-1.5"/> สมบูรณ์</span>;
       case MatchStatus.AMOUNT_MISMATCH:
-        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800"><AlertTriangle className="w-3 h-3 mr-1"/> ยอดเงินไม่ตรง</span>;
+        return <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-rose-100 text-rose-700 border border-rose-200 shadow-sm"><AlertTriangle className="w-3 h-3 mr-1.5"/> ยอดเงินไม่ตรง</span>;
       case MatchStatus.DATE_MISMATCH:
-        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"><AlertTriangle className="w-3 h-3 mr-1"/> วันที่ไม่ตรง</span>;
+        return <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 border border-amber-200 shadow-sm"><AlertTriangle className="w-3 h-3 mr-1.5"/> วันที่ไม่ตรง</span>;
       case MatchStatus.UNMATCHED_BOOK:
-        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"><XCircle className="w-3 h-3 mr-1"/> ไม่พบใน Bank</span>;
+        return <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 shadow-sm"><XCircle className="w-3 h-3 mr-1.5"/> ไม่พบใน Bank</span>;
       case MatchStatus.UNMATCHED_BANK:
-        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800"><XCircle className="w-3 h-3 mr-1"/> ไม่พบใน Book</span>;
+        return <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 shadow-sm"><XCircle className="w-3 h-3 mr-1.5"/> ไม่พบใน Book</span>;
       default:
         return null;
     }
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-full">
       {/* Table Header Controls */}
-      <div className="p-4 border-b border-gray-200 bg-gray-50 flex flex-col sm:flex-row justify-between items-center gap-4">
-        <div className="flex space-x-2">
+      <div className="p-5 border-b border-gray-100 bg-white flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="flex bg-gray-100/80 p-1 rounded-xl">
           <button 
             onClick={() => setFilter('ALL')}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filter === 'ALL' ? 'bg-blue-600 text-white shadow-sm' : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'}`}
+            className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all shadow-sm ${filter === 'ALL' ? 'bg-white text-violet-700' : 'bg-transparent text-gray-500 hover:text-gray-700 shadow-none'}`}
           >
-            ทั้งหมด ({data.length})
+            ทั้งหมด
           </button>
           <button 
             onClick={() => setFilter('MATCHED')}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filter === 'MATCHED' ? 'bg-green-600 text-white shadow-sm' : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'}`}
+            className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all shadow-sm ${filter === 'MATCHED' ? 'bg-white text-emerald-600' : 'bg-transparent text-gray-500 hover:text-gray-700 shadow-none'}`}
           >
-            จับคู่แล้ว ({data.filter(i => i.status === MatchStatus.MATCHED).length})
+            สมบูรณ์ ({data.filter(i => i.status === MatchStatus.MATCHED).length})
           </button>
           <button 
             onClick={() => setFilter('EXCEPTIONS')}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filter === 'EXCEPTIONS' ? 'bg-red-600 text-white shadow-sm' : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'}`}
+            className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all shadow-sm ${filter === 'EXCEPTIONS' ? 'bg-white text-rose-600' : 'bg-transparent text-gray-500 hover:text-gray-700 shadow-none'}`}
           >
-            ต้องตรวจสอบ ({data.filter(i => i.status !== MatchStatus.MATCHED).length})
+            ตรวจสอบ ({data.filter(i => i.status !== MatchStatus.MATCHED).length})
           </button>
         </div>
         <div className="relative w-full sm:w-64">
@@ -73,46 +73,46 @@ const ResultsTable: React.FC<ResultsTableProps> = ({ data }) => {
             placeholder="ค้นหา Invoice หรือ ยอดเงิน..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all"
           />
           <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
         </div>
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+      <div className="overflow-x-auto flex-grow">
+        <table className="min-w-full divide-y divide-gray-100">
+          <thead>
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32">สถานะ</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center bg-indigo-50 bg-opacity-50 border-l border-r border-indigo-100">
+              <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider w-36 bg-gray-50/50">สถานะ</th>
+              <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-violet-600 uppercase tracking-wider text-center bg-violet-50/40 border-l border-r border-violet-100">
                 Book / GL (ระบบบัญชี)
               </th>
-               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center bg-blue-50 bg-opacity-50 border-r border-blue-100">
+               <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-sky-600 uppercase tracking-wider text-center bg-sky-50/40 border-r border-sky-100">
                 Bank (รายการเดินบัญชี)
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">หมายเหตุ</th>
+              <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider bg-gray-50/50">หมายเหตุ</th>
             </tr>
-            <tr className="bg-gray-50 border-b border-gray-200">
-               <th className="px-6 py-2"></th>
-               <th className="px-6 py-2 text-xs text-gray-400 font-normal bg-indigo-50 bg-opacity-30 border-l border-r border-indigo-100">
-                 <div className="grid grid-cols-3 gap-2">
+            <tr className="border-b border-gray-200 shadow-sm">
+               <th className="px-6 py-2 bg-gray-50/30"></th>
+               <th className="px-6 py-2 text-[10px] text-violet-400 font-semibold uppercase bg-violet-50/20 border-l border-r border-violet-100">
+                 <div className="grid grid-cols-3 gap-4">
                    <span>Date</span>
-                   <span>Invoice/Desc</span>
+                   <span>Invoice / Description</span>
                    <span className="text-right">Amount</span>
                  </div>
                </th>
-               <th className="px-6 py-2 text-xs text-gray-400 font-normal bg-blue-50 bg-opacity-30 border-r border-blue-100">
-                 <div className="grid grid-cols-3 gap-2">
+               <th className="px-6 py-2 text-[10px] text-sky-400 font-semibold uppercase bg-sky-50/20 border-r border-sky-100">
+                 <div className="grid grid-cols-3 gap-4">
                    <span>Date</span>
-                   <span>Invoice/No</span>
+                   <span>Ref / Invoice No.</span>
                    <span className="text-right">Amount</span>
                  </div>
                </th>
-               <th className="px-6 py-2"></th>
+               <th className="px-6 py-2 bg-gray-50/30"></th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200 text-sm">
+          <tbody className="bg-white divide-y divide-gray-100 text-sm">
             {filteredData.map((row) => (
               <tr key={row.id} className="hover:bg-gray-50 transition-colors group">
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -120,43 +120,46 @@ const ResultsTable: React.FC<ResultsTableProps> = ({ data }) => {
                 </td>
                 
                 {/* Book Column */}
-                <td className={`px-6 py-4 border-l border-r border-indigo-50 ${row.status === MatchStatus.UNMATCHED_BANK ? 'bg-orange-50 bg-opacity-20' : ''}`}>
+                <td className={`px-6 py-4 border-l border-r border-violet-50 ${row.status === MatchStatus.UNMATCHED_BANK ? 'bg-orange-50/30' : ''}`}>
                   {row.bookRecord ? (
-                    <div className="grid grid-cols-3 gap-2 items-center">
-                      <span className="text-gray-600 text-xs">{row.bookRecord.raw_date}</span>
-                      <span className="font-medium text-gray-900 truncate" title={row.bookRecord.description}>{row.bookRecord.description}</span>
-                      <span className="text-right font-mono font-medium">{row.bookRecord.raw_amount}</span>
+                    <div className="grid grid-cols-3 gap-4 items-center">
+                      <span className="text-gray-500 text-xs font-mono bg-gray-100 px-2 py-0.5 rounded w-fit">{row.bookRecord.raw_date}</span>
+                      <span className="font-semibold text-gray-800 truncate text-xs sm:text-sm" title={row.bookRecord.description}>{row.bookRecord.description}</span>
+                      <span className="text-right font-mono font-bold text-gray-700">{row.bookRecord.raw_amount}</span>
                     </div>
                   ) : (
-                    <div className="text-center text-gray-400 text-xs">- ไม่มีข้อมูล -</div>
+                    <div className="text-center text-gray-300 text-xs py-2 italic">- ไม่มีข้อมูลใน Book -</div>
                   )}
                 </td>
 
                 {/* Bank Column */}
-                <td className={`px-6 py-4 border-r border-blue-50 ${row.status === MatchStatus.UNMATCHED_BOOK ? 'bg-gray-50' : ''}`}>
+                <td className={`px-6 py-4 border-r border-sky-50 ${row.status === MatchStatus.UNMATCHED_BOOK ? 'bg-gray-50/50' : ''}`}>
                   {row.bankRecord ? (
-                     <div className="grid grid-cols-3 gap-2 items-center">
-                      <span className="text-gray-600 text-xs">{row.bankRecord.raw_date}</span>
-                      <span className="font-medium text-gray-900 truncate" title={row.bankRecord.invoice_number}>{row.bankRecord.invoice_number}</span>
-                      <span className={`text-right font-mono font-medium ${row.status === MatchStatus.AMOUNT_MISMATCH ? 'text-red-600' : ''}`}>
+                     <div className="grid grid-cols-3 gap-4 items-center">
+                      <span className="text-gray-500 text-xs font-mono bg-gray-100 px-2 py-0.5 rounded w-fit">{row.bankRecord.raw_date}</span>
+                      <span className="font-semibold text-gray-800 truncate text-xs sm:text-sm" title={row.bankRecord.invoice_number}>{row.bankRecord.invoice_number}</span>
+                      <span className={`text-right font-mono font-bold ${row.status === MatchStatus.AMOUNT_MISMATCH ? 'text-rose-600 bg-rose-50 px-1 rounded' : 'text-gray-700'}`}>
                         {row.bankRecord.raw_amount}
                       </span>
                     </div>
                   ) : (
-                     <div className="text-center text-gray-400 text-xs">- ไม่มีข้อมูล -</div>
+                     <div className="text-center text-gray-300 text-xs py-2 italic">- ไม่มีข้อมูลใน Bank -</div>
                   )}
                 </td>
 
-                <td className="px-6 py-4 text-xs text-gray-500">
+                <td className="px-6 py-4 text-xs">
                   {row.notes.length > 0 ? (
-                    <ul className="list-disc pl-4 space-y-1">
+                    <div className="space-y-1">
                       {row.notes.map((note, idx) => (
-                        <li key={idx} className="text-red-600">{note}</li>
+                        <div key={idx} className="text-rose-600 flex items-start gap-1">
+                          <AlertTriangle className="w-3 h-3 mt-0.5 flex-shrink-0" />
+                          <span>{note}</span>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   ) : (
-                    <span className="text-green-600 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <CheckCircle className="w-3 h-3"/> ถูกต้อง
+                    <span className="text-emerald-600 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity font-medium">
+                      <CheckCircle className="w-3 h-3"/> ข้อมูลตรงกัน
                     </span>
                   )}
                 </td>
@@ -165,9 +168,14 @@ const ResultsTable: React.FC<ResultsTableProps> = ({ data }) => {
             
             {filteredData.length === 0 && (
               <tr>
-                <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
-                  <Search className="w-12 h-12 mx-auto text-gray-300 mb-3" />
-                  <p>ไม่พบข้อมูลตามเงื่อนไขที่กำหนด</p>
+                <td colSpan={4} className="px-6 py-16 text-center">
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="bg-gray-100 p-4 rounded-full mb-3">
+                      <Search className="w-8 h-8 text-gray-400" />
+                    </div>
+                    <h3 className="text-gray-900 font-semibold">ไม่พบข้อมูล</h3>
+                    <p className="text-gray-500 text-sm mt-1">ลองเปลี่ยนคำค้นหาหรือตัวกรองสถานะ</p>
+                  </div>
                 </td>
               </tr>
             )}
